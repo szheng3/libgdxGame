@@ -1,6 +1,7 @@
 package com.pennypop.project;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -11,19 +12,24 @@ import com.badlogic.gdx.graphics.GL20;
  * render() are the only methods that are relevant
  * 
  * @author Richard Taylor
- * */
-public class ProjectApplication implements ApplicationListener {
+ */
+public class ProjectApplication extends Game implements ApplicationListener {
 
 	private Screen screen;
+	private Game game;
+
+	public ProjectApplication() {
+		super();
+		this.game = this;
+	}
 
 	public static void main(String[] args) {
-		new LwjglApplication(new ProjectApplication(), "PennyPop", 1280, 720,
-				true);
+		new LwjglApplication(new ProjectApplication(), "PennyPop", 1280, 720, true);
 	}
 
 	@Override
 	public void create() {
-		screen = new MainScreen();
+		screen = new MainScreen(game);
 		screen.show();
 	}
 

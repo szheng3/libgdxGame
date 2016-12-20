@@ -12,11 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
@@ -29,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * This is where you screen code will go, any UI should be in here
@@ -60,14 +63,20 @@ public class MainScreen implements Screen {
 	protected String description;
 	protected int deg;
 	protected int speed;
+	private Game game;
+	private int flaggam = 0;
+	private Screen screen;
+	int[][] a = new int[4][4];
 
-	public MainScreen() {
+	public MainScreen(Game game) {
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, spriteBatch);
 		font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
 		rootTable = new Table();
 		tableleft = new Table();
 		tableright = new Table();
+
+		this.game = game;
 
 	}
 
@@ -79,6 +88,7 @@ public class MainScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		// apibutton.setStyle(gamebutton.getStyle());
 
 		if (flag == 0) {
 			weather.setText("");
@@ -93,9 +103,18 @@ public class MainScreen implements Screen {
 			degree.setText(Integer.toString(deg) + " degrees, " + Integer.toString(speed) + "mph wind");
 
 		}
-
 		stage.act(delta);
 		stage.draw();
+
+		if (flaggam == 1) {
+			clearWhite();
+			screen.render(delta);
+		}
+	}
+
+	private void clearWhite() {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override
@@ -183,18 +202,8 @@ public class MainScreen implements Screen {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// try {
-				// speed = result.getJSONObject("wind").getInt("speed");
-				// System.out.println(speed);
-				// } catch (JSONException e) {
-				// // TODO Auto-generated catch block
-				// e.printStackTrace();
-				// }
-
-				// get json data
 
 				flag = (flag + 1) % 2;
-				System.out.println(flag);
 
 			}
 		});
@@ -206,13 +215,23 @@ public class MainScreen implements Screen {
 		gamebutton = new ImageButton(myTexRegionDrawable3);
 		// draw the gamebutton
 
+		gamebutton.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				screen = new GameScreen(game);
+				game.setScreen(screen);
+
+				flaggam = (flaggam + 1) % 2;
+
+			}
+		});
+		// gamebutton listener
 		tableleft.add(label).colspan(3).center().pad(10);
 		tableleft.row();
 		tableleft.add(sfxbutton).pad(3);
 		tableleft.add(apibutton).pad(3);
 		tableleft.add(gamebutton).pad(3);
 		// add item to the lefttable
-
 		tableright.add(weather);
 		tableright.row();
 		tableright.add(place).pad(3);
