@@ -1,3 +1,7 @@
+/**
+ * @author: Shuai Zheng
+ */
+
 package com.pennypop.project;
 
 import com.badlogic.gdx.Game;
@@ -22,6 +26,8 @@ public class GameScreen implements Screen {
 	public int x = 7;
 	public int y = 6;
 	// row and col
+	public int countforwin = 4;
+	// number for win
 	private ButtonData[][] board;
 
 	private Table tableboard;
@@ -113,6 +119,7 @@ public class GameScreen implements Screen {
 							RorY = (RorY + 1) % 2;
 
 						}
+						CheckForWin();
 
 					}
 				});
@@ -138,6 +145,126 @@ public class GameScreen implements Screen {
 		TextureRegionDrawable myTexRegionDrawable3 = new TextureRegionDrawable(myTextureRegion3);
 		ImageButton tembutton = new ImageButton(myTexRegionDrawable3);
 		return tembutton;
+
+	}
+
+	private void CheckForWin() {
+
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				for (int rory = 0; rory < 2; rory++) {
+
+					if (board[i][j].getType() == rory) {
+						int tempx = i;
+						int tempy = j;
+						int countforcol = 0;
+						while (true) {
+
+							if (tempx < x && board[tempx][j].getType() == rory) {
+								tempx++;
+								countforcol = countforcol + 1;
+								System.out.println("countforcol:" + countforcol);
+								if (countforcol == countforwin) {
+									if (rory == 0) {
+										System.out.println("red win");
+
+									} else if (rory == 1) {
+										System.out.println("yellow win");
+
+									}
+								}
+
+							} else {
+								break;
+							}
+							// check for win col
+
+						}
+						int countforrow = 0;
+						while (true) {
+
+							if (tempy < y && board[i][tempy].getType() == rory) {
+								tempy++;
+								countforrow = countforrow + 1;
+								System.out.println("countforrow:" + countforrow);
+								if (countforrow == countforwin) {
+									if (rory == 0) {
+										System.out.println("red win");
+
+									} else if (rory == 1) {
+										System.out.println("yellow win");
+
+									}
+								}
+
+							} else {
+								break;
+							}
+							// check for win row
+
+						}
+
+						int countforright = 0;
+						int tempyright = j;
+						int tempxright = i;
+
+						while (true) {
+
+							if (tempxright < x && tempyright < y && board[tempxright][tempyright].getType() == rory) {
+								tempyright++;
+								tempxright++;
+								countforright = countforright + 1;
+								System.out.println("countforright:" + countforright);
+								if (countforright == countforwin) {
+									if (rory == 0) {
+										System.out.println("red win");
+
+									} else if (rory == 1) {
+										System.out.println("yellow win");
+
+									}
+								}
+
+							} else {
+								break;
+							}
+							// check for win right
+
+						}
+
+						int counterforleft = 0;
+						int tempyleft = j;
+						int tempxleft = i;
+
+						while (true) {
+
+							if (tempxleft >= 0 && tempyleft < y && board[tempxleft][tempyleft].getType() == rory) {
+								tempyleft++;
+								tempxleft--;
+								counterforleft = counterforleft + 1;
+								System.out.println("counterforleft:" + counterforleft);
+								if (counterforleft == countforwin) {
+									if (rory == 0) {
+										System.out.println("red win");
+
+									} else if (rory == 1) {
+										System.out.println("yellow win");
+
+									}
+								}
+							} else {
+								break;
+							}
+							// check for win left
+						}
+
+					}
+
+				}
+
+			}
+
+		}
 
 	}
 
