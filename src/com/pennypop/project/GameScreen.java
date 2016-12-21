@@ -7,12 +7,15 @@ package com.pennypop.project;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -37,10 +40,16 @@ public class GameScreen implements Screen {
 	private ImageButton redbutton;
 	private ImageButton yellowbutton;
 	protected int RorY = 0;
-	// RorY==0:red
-	// RorY==1:yellow
+	private boolean resultwin;
+	private BitmapFont font;
+	private Label WhoWin;
+	private Table wintable;
+	private Table rootable;
+	private MainScreen screen;
 
 	public GameScreen(Game game) {
+		font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
+
 		spriteBatch = new SpriteBatch();
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, spriteBatch);
 		this.game = game;
@@ -48,6 +57,8 @@ public class GameScreen implements Screen {
 		tableboard = new Table();
 		redbutton = CreateButton("red.png");
 		yellowbutton = CreateButton("yellow.png");
+		wintable = new Table();
+		rootable = new Table();
 
 	}
 
@@ -78,6 +89,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
+		WhoWin = new Label("", new Label.LabelStyle(font, Color.RED));
 
 		for (int j = 0; j < y; j++) {
 			for (int i = 0; i < x; i++) {
@@ -132,9 +144,13 @@ public class GameScreen implements Screen {
 
 		}
 		tableboard.debug();
+		wintable.add(WhoWin).colspan(3).center().pad(10);
+		rootable.add(wintable);
+		rootable.row();
+		rootable.add(tableboard);
 
-		tableboard.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		stage.addActor(tableboard);
+		rootable.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+		stage.addActor(rootable);
 
 	}
 
@@ -165,13 +181,8 @@ public class GameScreen implements Screen {
 								countforcol = countforcol + 1;
 								System.out.println("countforcol:" + countforcol);
 								if (countforcol == countforwin) {
-									if (rory == 0) {
-										System.out.println("red win");
+									ReadytoShowWin(rory);
 
-									} else if (rory == 1) {
-										System.out.println("yellow win");
-
-									}
 								}
 
 							} else {
@@ -188,13 +199,8 @@ public class GameScreen implements Screen {
 								countforrow = countforrow + 1;
 								System.out.println("countforrow:" + countforrow);
 								if (countforrow == countforwin) {
-									if (rory == 0) {
-										System.out.println("red win");
+									ReadytoShowWin(rory);
 
-									} else if (rory == 1) {
-										System.out.println("yellow win");
-
-									}
 								}
 
 							} else {
@@ -216,13 +222,7 @@ public class GameScreen implements Screen {
 								countforright = countforright + 1;
 								System.out.println("countforright:" + countforright);
 								if (countforright == countforwin) {
-									if (rory == 0) {
-										System.out.println("red win");
-
-									} else if (rory == 1) {
-										System.out.println("yellow win");
-
-									}
+									ReadytoShowWin(rory);
 								}
 
 							} else {
@@ -244,13 +244,8 @@ public class GameScreen implements Screen {
 								counterforleft = counterforleft + 1;
 								System.out.println("counterforleft:" + counterforleft);
 								if (counterforleft == countforwin) {
-									if (rory == 0) {
-										System.out.println("red win");
+									ReadytoShowWin(rory);
 
-									} else if (rory == 1) {
-										System.out.println("yellow win");
-
-									}
 								}
 							} else {
 								break;
@@ -263,6 +258,21 @@ public class GameScreen implements Screen {
 				}
 
 			}
+
+		}
+
+	}
+
+	void ReadytoShowWin(int rory) {
+		if (rory == 0) {
+			resultwin = true;
+
+			WhoWin.setText("Red Win");
+
+		} else if (rory == 1) {
+			resultwin = true;
+
+			WhoWin.setText("Yellow Win");
 
 		}
 
