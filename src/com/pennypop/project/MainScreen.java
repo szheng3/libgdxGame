@@ -1,8 +1,6 @@
 package com.pennypop.project;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -14,14 +12,12 @@ import org.json.JSONObject;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net.HttpRequest;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -31,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * This is where you screen code will go, any UI should be in here
@@ -44,7 +39,6 @@ public class MainScreen implements Screen {
 	private final SpriteBatch spriteBatch;
 	private String Mytext;
 	private BitmapFont font;
-	private TextBounds Bound;
 	private Sound sound;
 	private ImageButton apibutton;
 	private ImageButton sfxbutton;
@@ -165,8 +159,6 @@ public class MainScreen implements Screen {
 
 		apibutton.addListener(new ChangeListener() {
 
-			private int speed;
-
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				JSONObject result = Json(
@@ -192,7 +184,7 @@ public class MainScreen implements Screen {
 				try {
 					JSONObject t = result.getJSONObject("wind");
 					deg = t.getInt("deg");
-					speed = t.getInt("speed");
+					t.getInt("speed");
 
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
