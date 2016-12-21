@@ -3,7 +3,7 @@ Usage:
 
 Eclipse:
 
-File|Import
-General|Existing Projects into Workspace
-Select File Dictionary and Click next
+1. File|Import
+2. General|Existing Projects into Workspace
+3. Select File Dictionary and Click next
 
