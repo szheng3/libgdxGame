@@ -147,10 +147,8 @@ public class MainScreen implements Screen {
 		// create sound
 
 		Gdx.input.setInputProcessor(stage);
-		Texture myTexture = new Texture(Gdx.files.internal("sfxButton.png"));
-		TextureRegion myTextureRegion = new TextureRegion(myTexture);
-		TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-		sfxbutton = new ImageButton(myTexRegionDrawable);
+
+		sfxbutton = CreateButton("sfxButton.png");
 		// draw the sfxbutton
 
 		sfxbutton.addListener(new ChangeListener() {
@@ -162,10 +160,7 @@ public class MainScreen implements Screen {
 		});
 		// play music sfxbutton
 
-		Texture myTexture2 = new Texture(Gdx.files.internal("apiButton.png"));
-		TextureRegion myTextureRegion2 = new TextureRegion(myTexture2);
-		TextureRegionDrawable myTexRegionDrawable2 = new TextureRegionDrawable(myTextureRegion2);
-		apibutton = new ImageButton(myTexRegionDrawable2);
+		apibutton = CreateButton("apiButton.png");
 		// draw the apiButton
 
 		apibutton.addListener(new ChangeListener() {
@@ -210,10 +205,7 @@ public class MainScreen implements Screen {
 		});
 		// add apibutton listener
 
-		Texture myTexture3 = new Texture(Gdx.files.internal("gameButton.png"));
-		TextureRegion myTextureRegion3 = new TextureRegion(myTexture3);
-		TextureRegionDrawable myTexRegionDrawable3 = new TextureRegionDrawable(myTextureRegion3);
-		gamebutton = new ImageButton(myTexRegionDrawable3);
+		gamebutton = CreateButton("gameButton.png");
 		// draw the gamebutton
 
 		gamebutton.addListener(new ChangeListener() {
@@ -280,5 +272,16 @@ public class MainScreen implements Screen {
 
 	}
 	// parse http json
+
+	private ImageButton CreateButton(String image) {
+		// TODO Auto-generated method stub
+		Texture myTexture3 = new Texture(Gdx.files.internal(image));
+		TextureRegion myTextureRegion3 = new TextureRegion(myTexture3);
+		TextureRegionDrawable myTexRegionDrawable3 = new TextureRegionDrawable(myTextureRegion3);
+		ImageButton tembutton = new ImageButton(myTexRegionDrawable3);
+		return tembutton;
+
+	}
+	// create button
 
 }

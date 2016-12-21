@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		WhoWin = new Label("", new Label.LabelStyle(font, Color.RED));
+		WhoWin = new Label("", new Label.LabelStyle(font, Color.CYAN));
 
 		for (int j = 0; j < y; j++) {
 			for (int i = 0; i < x; i++) {
