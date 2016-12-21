@@ -125,6 +125,7 @@ public class MainScreen implements Screen {
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
+		System.out.println("hi i am hide");
 	}
 
 	@Override
@@ -218,6 +219,8 @@ public class MainScreen implements Screen {
 		gamebutton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				Gdx.input.setInputProcessor(null);
+
 				screen = new GameScreen(game);
 				game.setScreen(screen);
 

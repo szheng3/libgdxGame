@@ -8,6 +8,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,7 @@ public class GameScreen implements Screen {
 	private Table wintable;
 	private Table rootable;
 	private MainScreen screen;
+	protected boolean tomain;
 
 	public GameScreen(Game game) {
 		font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
@@ -72,8 +74,20 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		stage.act(delta);
 		Table.drawDebug(stage);
+		if (Gdx.input.isTouched() && resultwin) {
+			tomain = true;
+		}
 
 		stage.draw();
+		if (tomain) {
+			clearWhite();
+			screen.render(delta);
+		}
+	}
+
+	private void clearWhite() {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override
@@ -275,6 +289,11 @@ public class GameScreen implements Screen {
 			WhoWin.setText("Yellow Win");
 
 		}
+
+		// tomain = true;
+		Gdx.input.setInputProcessor(null);
+		screen = new MainScreen(game);
+		game.setScreen(screen);
 
 	}
 
